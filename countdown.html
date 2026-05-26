@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Minuteur Magique</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; margin-top: 150px; background: #121212; color: white; }
+        #timer { font-size: 100px; font-weight: bold; font-variant-numeric: tabular-nums; margin-bottom: 20px; }
+        button { font-size: 20px; padding: 12px 24px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; background: #1e88e5; color: white; transition: 0.2s; }
+        button:hover { background: #1565c0; }
+        .add-btn { background: #4caf50; }
+        .add-btn:hover { background: #388e3c; }
+    </style>
+</head>
+<body>
+
+    <div id="timer">05:00</div>
+    <button onclick="startTimer()">Démarrer</button>
+    <button class="add-btn" onclick="addTime()">+10 Secondes</button>
+    <button onclick="resetTimer()" style="background:#f44336;">Reset</button>
+
+    <script>
+        let timeLeft = 300; // 5 minutes en secondes
+        let timerId = null;
+
+        function updateDisplay() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            document.getElementById('timer').innerText = 
+                (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+        }
+
+        function startTimer() {
+            if (timerId !== null) return;
+            timerId = setInterval(() => {
+                if (timeLeft > 0) {
+                    timeLeft--;
+                    updateDisplay();
+                } else {
+                    clearInterval(timerId);
+                    timerId = null;
+                    alert("Temps écoulé !");
+                }
+            }, 1000);
+        }
+
+        function addTime() {
+            timeLeft += 10;
+            updateDisplay();
+        }
+
+        function resetTimer() {
+            clearInterval(timerId);
+            timerId = null;
+            timeLeft = 300;
+            updateDisplay();
+        }
+    </script>
+</body>
+</html>
