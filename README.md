@@ -1,8 +1,8 @@
 # Minuteur Flexible
 
-Un minuteur web simple, épuré et sans fioritures. Initialisé à 5 minutes, il permet d'ajouter 10 secondes dynamiquement d'un simple clic, sans interrompre le compte à rebours.
+Un minuteur web simple, épuré et sans fioritures. Initialisé à 5 minutes, il permet d'ajouter ou d'enlever 10 secondes dynamiquement d'un simple clic, sans interrompre le compte à rebours.
 
-Idéal pour la gestion de débats, les jeux de société, la méthode Pomodoro ou le suivi de cuisson.
+Inventé pour le jeu **Arène Au Trésor**
 
 ## Fonctionnalités
 
