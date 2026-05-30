@@ -8,8 +8,10 @@
         #timer { font-size: 100px; font-weight: bold; font-variant-numeric: tabular-nums; margin-bottom: 20px; }
         button { font-size: 20px; padding: 12px 24px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; background: #1e88e5; color: white; transition: 0.2s; }
         button:hover { background: #1565c0; }
-        .add-btn { background: #4caf50; }
-        .add-btn:hover { background: #388e3c; }
+        .add-btn { background: #1e88e5; }
+        .add-btn:hover { background: #1565c0; }
+        .remove-btn { background: #f44336; }
+        .remove-btn:hover { background: #c62828; }
     </style>
 </head>
 <body>
@@ -17,10 +19,11 @@
     <div id="timer">05:00</div>
     <button onclick="startTimer()">Démarrer</button>
     <button class="add-btn" onclick="addTime()">+10 Secondes</button>
-    <button onclick="resetTimer()" style="background:#f44336;">Reset</button>
+    <button class="remove-btn" onclick="removeTime()">-10 Secondes</button>
+    <button onclick="resetTimer()" style="background:#555; ">Reset</button>
 
     <script>
-        let timeLeft = 300; // 5 minutes en secondes
+        let timeLeft = 300;
         let timerId = null;
 
         function updateDisplay() {
@@ -46,6 +49,15 @@
 
         function addTime() {
             timeLeft += 10;
+            updateDisplay();
+        }
+
+        function removeTime() {
+            if (timeLeft > 10) {
+                timeLeft -= 10;
+            } else {
+                timeLeft = 0;
+            }
             updateDisplay();
         }
 
