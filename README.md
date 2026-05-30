@@ -1,4 +1,3 @@
-```markdown
 # Minuteur Flexible
 
 Un minuteur web simple, épuré et sans fioritures. Initialisé à 5 minutes, il permet d'ajouter 10 secondes dynamiquement d'un simple clic, sans interrompre le compte à rebours.
@@ -21,6 +20,5 @@ Idéal pour la gestion de débats, les jeux de société, la méthode Pomodoro o
 
 ## Structure du Projet
 
-```text
 ├── minuteur.html  # Code source unique (Structure, Style et Logique)
 └── README.md      # Documentation du projet
