@@ -2,71 +2,311 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Minuteur Magique</title>
+    <title>Arène Au Trésor</title>
     <style>
-        body { font-family: 'Arial', sans-serif; text-align: center; margin-top: 150px; background: #121212; color: white; }
-        #timer { font-size: 100px; font-weight: bold; font-variant-numeric: tabular-nums; margin-bottom: 20px; }
-        button { font-size: 20px; padding: 12px 24px; margin: 5px; cursor: pointer; border: none; border-radius: 5px; background: #1e88e5; color: white; transition: 0.2s; }
-        button:hover { background: #1565c0; }
-        .add-btn { background: #1e88e5; }
-        .add-btn:hover { background: #1565c0; }
-        .remove-btn { background: #f44336; }
-        .remove-btn:hover { background: #c62828; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: #121212;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+        }
+
+        h1 { font-size: 28px; letter-spacing: 2px; color: #ccc; }
+
+        .palier-select { display: flex; align-items: center; gap: 14px; }
+        .palier-select label { font-size: 16px; color: #aaa; }
+        .palier-select select {
+            font-size: 18px;
+            padding: 8px 14px;
+            border-radius: 6px;
+            border: none;
+            background: #222;
+            color: white;
+            cursor: pointer;
+        }
+
+        #timer {
+            font-size: 100px;
+            font-weight: bold;
+            font-variant-numeric: tabular-nums;
+        }
+        #timer.warning { color: #f44336; }
+
+        .teams {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            width: 100%;
+            max-width: 760px;
+        }
+
+        .team {
+            flex: 1;
+            border-radius: 12px;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        .team-rouge { background: #2a1111; border: 2px solid #f44336; }
+        .team-bleu  { background: #111a2a; border: 2px solid #1e88e5; }
+
+        .team-name { font-size: 22px; font-weight: bold; letter-spacing: 1px; }
+        .team-rouge .team-name { color: #f44336; }
+        .team-bleu  .team-name { color: #1e88e5; }
+
+        .team-score { font-size: 72px; font-weight: bold; font-variant-numeric: tabular-nums; line-height: 1; }
+        .team-rouge .team-score { color: #f44336; }
+        .team-bleu  .team-score { color: #1e88e5; }
+
+        .score-palier { font-size: 14px; color: #555; }
+
+        .chrono-effect { font-size: 14px; color: #aaa; }
+        .team-rouge .chrono-effect { color: #f44336; }
+        .team-bleu  .chrono-effect { color: #1e88e5; }
+
+        .deposit-row { display: flex; gap: 8px; align-items: center; }
+
+        .deposit-row input {
+            width: 70px;
+            font-size: 18px;
+            padding: 8px 10px;
+            border-radius: 6px;
+            border: none;
+            text-align: center;
+            background: #222;
+            color: white;
+        }
+
+        .team button {
+            font-size: 16px;
+            padding: 10px 14px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn-deposit-rouge { background: #f44336; }
+        .btn-deposit-rouge:hover { background: #c62828; }
+        .btn-deposit-bleu  { background: #1e88e5; }
+        .btn-deposit-bleu:hover  { background: #1565c0; }
+
+        .bonus-info { font-size: 13px; color: #aaa; min-height: 18px; }
+
+        .controls { display: flex; gap: 12px; }
+        .controls button {
+            font-size: 18px;
+            padding: 12px 28px;
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            transition: 0.2s;
+        }
+        #btn-start { background: #4caf50; }
+        #btn-start:hover { background: #388e3c; }
+        #btn-reset { background: #555; }
+        #btn-reset:hover { background: #333; }
+
+        #winner-msg { font-size: 32px; font-weight: bold; min-height: 42px; }
     </style>
 </head>
 <body>
 
+    <h1>⚔️ Arène Au Trésor</h1>
+
+    <div class="palier-select">
+        <label>Objectif :</label>
+        <select id="palier">
+            <option value="50">50 points</option>
+            <option value="75">75 points</option>
+            <option value="100">100 points</option>
+        </select>
+    </div>
+
     <div id="timer">05:00</div>
-    <button onclick="startTimer()">Démarrer</button>
-    <button class="add-btn" onclick="addTime()">+10 Secondes</button>
-    <button class="remove-btn" onclick="removeTime()">-10 Secondes</button>
-    <button onclick="resetTimer()" style="background:#555; ">Reset</button>
+
+    <div class="teams">
+        <!-- Équipe Rouge : dépôt = -10s -->
+        <div class="team team-rouge">
+            <div class="team-name">Équipe Rouge</div>
+            <div class="team-score" id="score-rouge">0</div>
+            <div class="score-palier" id="palier-rouge">/ 50 pts</div>
+            <div class="chrono-effect">Dépôt → −10s au chrono</div>
+            <div class="deposit-row">
+                <input type="number" id="input-rouge" min="1" value="1" oninput="updateBonus('rouge')" />
+                <button class="btn-deposit-rouge" onclick="deposit('rouge')">Déposer</button>
+            </div>
+            <div class="bonus-info" id="bonus-rouge">+0 bonus → 1 pt</div>
+        </div>
+
+        <!-- Équipe Bleue : dépôt = +10s -->
+        <div class="team team-bleu">
+            <div class="team-name">Équipe Bleue</div>
+            <div class="team-score" id="score-bleu">0</div>
+            <div class="score-palier" id="palier-bleu">/ 50 pts</div>
+            <div class="chrono-effect">Dépôt → +10s au chrono</div>
+            <div class="deposit-row">
+                <input type="number" id="input-bleu" min="1" value="1" oninput="updateBonus('bleu')" />
+                <button class="btn-deposit-bleu" onclick="deposit('bleu')">Déposer</button>
+            </div>
+            <div class="bonus-info" id="bonus-bleu">+0 bonus → 1 pt</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="btn-start" onclick="startTimer()">Démarrer</button>
+        <button id="btn-reset" onclick="resetTimer()">Reset</button>
+    </div>
+
+    <div id="winner-msg"></div>
 
     <script>
         let timeLeft = 300;
         let timerId = null;
+        let scores = { rouge: 0, bleu: 0 };
+        let gameOver = false;
+
+        function getPalier() {
+            return parseInt(document.getElementById('palier').value);
+        }
+
+        document.getElementById('palier').addEventListener('change', () => {
+            let p = getPalier();
+            document.getElementById('palier-rouge').innerText = '/ ' + p + ' pts';
+            document.getElementById('palier-bleu').innerText  = '/ ' + p + ' pts';
+        });
+
+        function getBonus(pts) {
+            if (pts >= 20) return 10;
+            if (pts >= 15) return 8;
+            if (pts >= 10) return 4;
+            if (pts >= 5)  return 2;
+            return 0;
+        }
+
+        function updateBonus(team) {
+            let pts = parseInt(document.getElementById('input-' + team).value) || 0;
+            let bonus = getBonus(pts);
+            let total = pts + bonus;
+            document.getElementById('bonus-' + team).innerText =
+                '+' + bonus + ' bonus → ' + total + ' pt' + (total > 1 ? 's' : '');
+        }
+
+        function checkWinner() {
+            let palier = getPalier();
+            if (scores.rouge >= palier && scores.bleu >= palier) {
+                endGame('both');
+            } else if (scores.rouge >= palier) {
+                endGame('rouge');
+            } else if (scores.bleu >= palier) {
+                endGame('bleu');
+            }
+        }
+
+        function deposit(team) {
+            if (gameOver) return;
+            let pts = parseInt(document.getElementById('input-' + team).value) || 0;
+            if (pts < 1) return;
+            let bonus = getBonus(pts);
+            let total = pts + bonus;
+            scores[team] += total;
+
+            if (team === 'bleu') {
+                timeLeft += 10;
+            } else {
+                timeLeft = Math.max(0, timeLeft - 10);
+            }
+
+            document.getElementById('score-' + team).innerText = scores[team];
+            document.getElementById('input-' + team).value = 1;
+            updateBonus(team);
+            updateDisplay();
+
+            checkWinner();
+            if (!gameOver && timeLeft === 0) endGame('time');
+        }
 
         function updateDisplay() {
             let minutes = Math.floor(timeLeft / 60);
             let seconds = timeLeft % 60;
-            document.getElementById('timer').innerText = 
-                (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
+            let timerEl = document.getElementById('timer');
+            timerEl.innerText =
+                (minutes < 10 ? '0' : '') + minutes + ':' +
+                (seconds < 10 ? '0' : '') + seconds;
+            timerEl.classList.toggle('warning', timeLeft <= 30);
         }
 
         function startTimer() {
-            if (timerId !== null) return;
+            if (timerId !== null || gameOver) return;
             timerId = setInterval(() => {
                 if (timeLeft > 0) {
                     timeLeft--;
                     updateDisplay();
                 } else {
-                    clearInterval(timerId);
-                    timerId = null;
-                    alert("Temps écoulé !");
+                    endGame('time');
                 }
             }, 1000);
         }
 
-        function addTime() {
-            timeLeft += 10;
-            updateDisplay();
-        }
-
-        function removeTime() {
-            if (timeLeft > 10) {
-                timeLeft -= 10;
+        function endGame(reason) {
+            clearInterval(timerId);
+            timerId = null;
+            gameOver = true;
+            let msg = '';
+            if (reason === 'rouge') {
+                msg = '🔴 Équipe Rouge atteint l\'objectif et gagne !';
+            } else if (reason === 'bleu') {
+                msg = '🔵 Équipe Bleue atteint l\'objectif et gagne !';
+            } else if (reason === 'both') {
+                msg = '🤝 Les deux équipes atteignent l\'objectif — Égalité !';
             } else {
-                timeLeft = 0;
+                // temps écoulé
+                if (scores.rouge > scores.bleu) {
+                    msg = '🔴 Temps écoulé — Équipe Rouge gagne !';
+                } else if (scores.bleu > scores.rouge) {
+                    msg = '🔵 Temps écoulé — Équipe Bleue gagne !';
+                } else {
+                    msg = '🤝 Temps écoulé — Égalité !';
+                }
             }
-            updateDisplay();
+            document.getElementById('winner-msg').innerText = msg;
         }
 
         function resetTimer() {
             clearInterval(timerId);
             timerId = null;
             timeLeft = 300;
+            scores = { rouge: 0, bleu: 0 };
+            gameOver = false;
+            let p = getPalier();
+            document.getElementById('score-rouge').innerText = '0';
+            document.getElementById('score-bleu').innerText  = '0';
+            document.getElementById('palier-rouge').innerText = '/ ' + p + ' pts';
+            document.getElementById('palier-bleu').innerText  = '/ ' + p + ' pts';
+            document.getElementById('winner-msg').innerText  = '';
+            document.getElementById('timer').classList.remove('warning');
+            document.getElementById('input-rouge').value = 1;
+            document.getElementById('input-bleu').value  = 1;
+            updateBonus('rouge');
+            updateBonus('bleu');
             updateDisplay();
         }
+
+        updateDisplay();
+        updateBonus('rouge');
+        updateBonus('bleu');
     </script>
 </body>
 </html>
