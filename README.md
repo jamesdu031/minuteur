@@ -19,7 +19,8 @@ Avant le match, choisir un objectif parmi **50 / 75 / 100 points**.
 
 ## ⚔️ Règle de combat
 
-Lorsqu'un joueur touche un adversaire, celui-ci doit lui **remettre tous les points qu'il porte** sur lui. Il doit également retourner à la banque de son équipe pour recommencer à jouer. Ces points peuvent ensuite être déposés à la banque par le joueur qui les a récupérés.
+- Au début du match, chaque joueur commence depuis **la banque de son équipe**.
+- Lorsqu'un joueur touche un adversaire, celui-ci doit lui **remettre tous les points qu'il porte** sur lui, puis **retourner à sa banque** pour pouvoir rejouer. Ces points peuvent ensuite être déposés à la banque par le joueur qui les a récupérés.
 
 ## 💰 Système de points et bonus
 
