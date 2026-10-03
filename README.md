@@ -1,8 +1,8 @@
-# ⚔️ Arène Au Trésor
+# Arène Au Trésor
 
 Un minuteur interactif pour le jeu d'animation **Arène Au Trésor**, inspiré de l'Index dans Warframe.
 
-## 🎮 Présentation du jeu
+## Présentation du jeu
 
 Deux équipes s'affrontent — l'équipe **Rouge** et l'équipe **Bleue** — en ramassant des points sur le terrain et en les déposant dans une banque. Chaque dépôt influence le chronomètre et fait grimper le score de l'équipe.
 
@@ -10,19 +10,19 @@ Deux équipes s'affrontent — l'équipe **Rouge** et l'équipe **Bleue** — en
 - L'équipe **Bleue** augmente le chrono en déposant des points (+10s par dépôt)
 - L'équipe **Rouge** diminue le chrono en déposant des points (−10s par dépôt)
 
-## 🏆 Conditions de victoire
+## Conditions de victoire
 
 Avant le match, choisir un objectif parmi **50 / 75 / 100 points**.
 
 - La première équipe à atteindre l'objectif **gagne immédiatement**
 - Si le chrono tombe à zéro, **l'équipe avec le plus de points gagne**
 
-## ⚔️ Règle de combat
+## Règle de combat
 
 - Au début du match, chaque joueur commence depuis **la banque de son équipe**.
 - Lorsqu'un joueur touche un adversaire, celui-ci doit lui **remettre tous les points qu'il porte** sur lui, puis **retourner à sa banque** pour pouvoir rejouer. Ces points peuvent ensuite être déposés à la banque par le joueur qui les a récupérés.
 
-## 💰 Système de points et bonus
+## Système de points et bonus
 
 Les points sont ramassés sur le terrain puis déposés à la banque. Plus un joueur dépose de points en une fois, plus il reçoit de bonus :
 
@@ -36,7 +36,7 @@ Les points sont ramassés sur le terrain puis déposés à la banque. Plus un jo
 
 > Le bonus est plafonné à **+10** à partir de 20 points. Par exemple, déposer 35 points rapporte 35 + 10 = **45 points**.
 
-## 🖥️ Utilisation du minuteur
+## Utilisation du minuteur
 
 1. Ouvrir `countdown.html` dans un navigateur
 2. Choisir l'objectif de points (50 / 75 / 100)
